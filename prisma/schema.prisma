@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id                         String   @id @default("singleton")
+  // SEO & Meta
+  seoTitle                   String   @default("We Are Example | Brand Strategy, PR & Placemaking Agency | Sydney & Dubai")
+  seoDescription             String   @default("We Are Example makes brands and places famous. Independent brand strategy, PR and placemaking agency working with luxury hospitality, drinks brands and destinations across Australia, the Middle East and Asia Pacific.")
+  ogTitle                    String   @default("We Are Example | Brand Strategy, PR & Placemaking Agency | Sydney & Dubai")
+  ogDescription              String   @default("The agency that makes brands and places famous. Brand strategy, PR and placemaking for luxury hospitality brands, drinks labels and destination properties across Australia and the Middle East.")
+  ogImage                    String   @default("/images/67e101f0767f857eb14c5252_hook-island-slide22.jpg")
+  ogImageAlt                 String   @default("We Are Example Agency")
+  favicon                    String   @default("/images/67d5543f178881123cbf2851_Favicon.png")
+  appleTouchIcon             String   @default("/images/67d55445748485a56dd3640a_LargeIcon.png")
+
+  // Global / Header
+  cursorText                 String   @default("Learn more")
+  logoText                   String   @default("EXAMPLE")
+  logoCustomImage            String   @default("")
+  logoCustomImageAlt         String   @default("Example Agency Logo")
+  contactEmail               String   @default("hello@weareexample.com")
+  contactEmailSubject        String   @default("Hi!")
+  navEmailLabelDesktop       String   @default("mbist0066.com")
+  navEmailUrlDesktop         String   @default("mailto:hello@weareexample.com?subject=Hi!")
+  navEmailLabelMob           String   @default("info@example.com.au")
+  navEmailUrlMob             String   @default("mailto:info@example.com.au?subject=Hi!")
+  navWhoWeHelpHeading        String   @default("WHO WE HELP")
+  navWhatWeDoHeading         String   @default("what we do")
+  navMenuCloseText           String   @default("Close")
+  navMenuViewAllText          String   @default("VIEW ALL WORK")
+  navMenuViewAllUrl          String   @default("/what-we-do")
+  arrowIcon                  String   @default("/images/67c3bc53b872a81fe6f8968a_LinkArrow.svg")
+  arrowIconAlt               String   @default("Link arrow icon")
+
+  // Work Section
+  workEyebrowTitle           String   @default("We are Example")
+  workEyebrowSubtitle        String   @default("We Make Brands and Places Famous")
+  workCalloutLine1           String   @default("The things that earn attention are always")
+  workCalloutHighlight       String   @default("more valuable")
+  workCalloutLine2           String   @default("than the things that buy it")
+  workAllWorkText            String   @default("All Work")
+  workAllWorkUrl             String   @default("/what-we-do")
+  workStatsTagTopLeft        String   @default("AUS")
+  workStatsTagTopRight       String   @default("NZ")
+  workStatsTagBottomLeft     String   @default("UAE")
+  workStatsTagBottomRight    String   @default("26")
+
+  // Floating Help
+  floatingHelpHeading        String   @default("WHO WE HELP")
+  floatingArrowIcon          String   @default("/images/67d6f507937bee50f39cb6a3_GreatWhiteArrow.svg")
+  floatingArrowIconAlt       String   @default("Arrow icon")
+
+  // Client Statement & Icons
+  clientCornerIcon           String   @default("/images/67d7189a82f3dab39365b588_ClientCorner.svg")
+  clientCornerIconAlt        String   @default("Corner decoration")
+  clientFeatureHelp          String   @default("We help")
+  clientFeatureName          String   @default("earn their name,")
+  clientFeaturePlace         String   @default("Earn their place,")
+  clientFeatureAnd           String   @default("and")
+  clientFeatureMoment        String   @default("earn their moment")
+  clientTagline              String   @default("And we stay until the work is done")
+
+  // Newsletter Section
+  newsletterHeading          String   @default("FOR EXAMPLE")
+  newsletterBadge            String   @default("Join 15,000+ Readers")
+  newsletterTitle            String   @default("FOR EXAMPLE")
+  newsletterSubtext          String   @default("Every week the design, culture, and brand stories worth knowing about, before everyone else does.")
+  newsletterDisclaimer       String   @default("Always Free. Unsubscribe Anytime.")
+  newsletterPlaceholder      String   @default("Your email address...")
+  newsletterButtonText       String   @default("SIGN ME UP")
+  newsletterSuccessMessage   String   @default("Thank you! Your submission has been received!")
+  newsletterErrorMessage     String   @default("Oops! Something went wrong while submitting the form.")
+
+  // Footer
+  footerSloganMob            String   @default("Independent agency for brands and destinations")
+  footerHeadline             String   @default("The best client relationships start with a good conversation.")
+  footerLocationsText        String   @default("Australia / New Zealand / Middle East")
+  phoneSydney                String   @default("+61 2 8322 4600")
+  phoneDubai                 String   @default("+971 800 0311 0209")
+  footerQuicklinksTitle      String   @default("Quicklinks")
+  footerLandAcknowledgement  String   @default("We acknowledge the Traditional Custodians of the land on which we work and live, and pay our respects to Elders past and present. We recognise their continuing connection to land, waters and culture.")
+  footerNewsletterTitle      String   @default("Subscribe to our Newsletter")
+  footerNewsletterSubtext    String   @default("Always Free. Unsubscribe Anytime.")
+  footerNewsletterPlaceholder String  @default("Your email address...")
+  footerNewsletterButtonText String   @default("SIGN ME UP")
+  footerNewsletterSuccess    String   @default("Thank you! Your submission has been received!")
+  footerNewsletterError      String   @default("Oops! Something went wrong while submitting the form.")
+  copyrightText              String   @default("©2026 Example")
+  footerRightsText           String   @default("All Rights Reserved.")
+  footerPrivacyText          String   @default("Privacy Policy")
+  footerPrivacyUrl           String   @default("#")
+  footerCreditsPrefix        String   @default("Made by")
+  footerImage                String   @default("/images/67d76cd49b9cdd619b9f3ffa_Footer_image.avif")
+  footerImageAlt             String   @default("Example Agency brand and team imagery")
+  instagramUrl               String   @default("https://www.instagram.com/weareexample")
+  linkedinUrl                String   @default("https://au.linkedin.com/company/we-are-example")
+  updatedAt                  DateTime @updatedAt
+}
+
+model HeroSection {
+  id               String   @id @default("singleton")
+  headlineLine1    String   @default("We")
+  headlineLine2    String   @default("make BRANDS")
+  headlineLine3    String   @default("AND\u00a0PLACES")
+  headlineLine4    String   @default("FAMOUS")
+  subheading       String   @default("Brand Strategy, Design and PR for Hospitality, F&B and consumer brands across Australia, The Middle East & Asia Pacific")
+  ctaText          String   @default("What we do")
+  ctaLink          String   @default("/what-we-do")
+  polaroidLeft1    String   @default("/images/69c665efc772d742875d88e4_67e100cf88cd84eacfe17596_polaroid-image-opt4.avif")
+  polaroidLeft1Alt String   @default("Example agency hospitality showcase")
+  polaroidLeft2    String   @default("/images/69c66610a0f830c3a1f52f64_67e100d80a74e90f9a9c0103_polaroid-image-opt3.avif")
+  polaroidLeft2Alt String   @default("Example agency cocktail and dining showcase")
+  polaroidLeft3    String   @default("/images/69c6662f79641a0bf1404eb1_67e100de71d37c15ef4f7c84_polaroid-image-opt2.avif")
+  polaroidLeft3Alt String   @default("Example Agency Sydney & Dubai")
+  polaroidRight1   String   @default("/images/67e0fe4b4f15832fc4651b28_unnamed (5).avif")
+  polaroidRight1Alt String  @default("Example agency event activation")
+  polaroidRight2   String   @default("/images/69c66649e541e29ba22d23dc_67f3abf7bfe7a69e94a2eeba_67e1c681df188e044a67e311_Screenshot 2025-03-25 at 7.54.17 am.avif")
+  polaroidRight2Alt String  @default("Example agency lifestyle branding")
+  polaroidRight3   String   @default("/images/67e0fe5e8e81037e9e91b71a_unnamed (6).avif")
+  polaroidRight3Alt String  @default("Example Agency Sydney & Dubai")
+  updatedAt        DateTime @updatedAt
+}
+
+model HeroSlide {
+  id          String   @id @default(cuid())
+  order       Int
+  heading     String
+  description String
+  media       String   @default("{\"type\":\"image\",\"url\":\"\",\"altText\":\"Hero slide image\"}")
+  numberLabel String   @default("")
+  updatedAt   DateTime @updatedAt
+}
+
+model WorkItem {
+  id          String   @id @default(cuid())
+  order       Int
+  title       String
+  description String
+  media       String   @default("{\"type\":\"image\",\"url\":\"\",\"altText\":\"Work case study thumbnail\"}")
+  link        String
+  slot        String   @default("slot1")
+  regionTags  String   @default("")
+  cursorText  String   @default("View Work")
+  isFeatured  Boolean  @default(true)
+  updatedAt   DateTime @updatedAt
+}
+
+model ClientLogo {
+  id       String @id @default(cuid())
+  name     String @default("")
+  image    String
+  imageAlt String @default("Client partner logo")
+  group    Int    @default(1)
+  order    Int
+}
+
+model NavLink {
+  id    String @id @default(cuid())
+  label String
+  url   String
+  group String // "who-we-help", "what-we-do", "desktop-top", "mobile-menu", "floating-wwd", "footer-quicklinks", "footer-social", "footer-credits"
+  order Int
+  extra String @default("")
+}
+
+model JournalPost {
+  id          String   @id @default(cuid())
+  order       Int
+  title       String
+  excerpt     String
+  media       String   @default("{\"type\":\"image\",\"url\":\"\",\"altText\":\"Journal article thumbnail\"}")
+  link        String
+  buttonLabel String   @default("Read")
+  category    String   @default("")
+  updatedAt   DateTime @updatedAt
+}
+
+model PodcastSection {
+  id              String   @id @default("singleton")
+  title           String   @default("Fine Form Podcast")
+  description1    String   @default("Example is proud to present Fine Form, a podcast reimagining the rules of success, created and hosted by our Co-Founder and COO, Rebecca Jarvie-Gibbs.")
+  description2    String   @default("Each week, Rebecca sits down with women shaping food, design, business and culture to uncover the big changes, small shifts and defining habits that have changed the way they work and live.")
+  ctaText         String   @default("View on Apple")
+  ctaLink         String   @default("https://podcasts.apple.com/us/podcast/fine-form-with-rebecca-jarvie-gibbs/id1836073545")
+  imageDesktop    String   @default("/images/68dd4df38fa090fd4ec78632_fineform1.avif")
+  imageDesktopAlt String   @default("Fine Form podcast campaign by Example Agency")
+  imageMobile     String   @default("/images/68dd56a4c34c85d6fe69b1ed_fineform-mobile.avif")
+  imageMobileAlt  String   @default("Fine Form podcast brand content on mobile")
+  updatedAt       DateTime @updatedAt
+}
+
