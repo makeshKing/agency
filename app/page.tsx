@@ -118,7 +118,7 @@ export default async function Home() {
 
           {/* ── DESKTOP NAV ── */}
           <div text-split="" letters-slide-up="" className="nav">
-            <a href="/" aria-current="page" className="link nav_left w-inline-block w--current">
+            <a href="/" className="link nav_left w-inline-block">
               {settings?.logoCustomImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -172,7 +172,7 @@ export default async function Home() {
 
           {/* ── MOBILE NAV ── */}
           <div className="nav mob">
-            <a href="/" aria-current="page" className="link nav_left w-inline-block w--current">
+            <a href="/" className="link nav_left w-inline-block">
               {settings?.logoCustomImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -236,7 +236,7 @@ export default async function Home() {
               </div>
               {/* Mobile menu nav bar (inside menu overlay) */}
               <div className="nav mob mob_menu">
-                <a href="/" aria-current="page" className="link nav_left light w-inline-block w--current">
+                <a href="/" className="link nav_left light w-inline-block">
                   {settings?.logoCustomImage ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img

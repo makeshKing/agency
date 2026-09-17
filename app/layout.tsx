@@ -63,8 +63,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="https://117956190.intellimizeio.com" rel="preconnect" />
 
         {/* Webflow JS touch detection — only adds w-mod-touch on touch devices; w-mod-js is already set on the html element above */}
-        <script
-          suppressHydrationWarning
+        <Script
+          id="webflow-touch"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(o,c){var n=c.documentElement,t=" w-mod-";("ontouchstart" in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")})(window,document);`,
           }}
@@ -73,17 +74,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* Intellimize anti-flicker */}
         <style>{`.anti-flicker,.anti-flicker *{visibility:hidden!important;opacity:0!important;}`}</style>
         <style>{`[data-wf-hidden-variation],[data-wf-hidden-variation]*{display:none!important;}`}</style>
-        <script
+        <Script
+          id="intellimize-optout"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `if(localStorage.getItem('intellimize_data_tracking_type')!=='disabled'){localStorage.setItem('intellimize_opt_out_117956190','true');}if(localStorage.getItem('intellimize_data_tracking_type')!=='disabled'){localStorage.setItem('intellimize_data_tracking_type','disabled');}`,
           }}
         />
-        <script
+        <Script
+          id="webflow-ready-queue"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(e){var s={r:[]};e.wf={r:s.r,ready:t=>{s.r.push(t)}}})(window)`,
           }}
         />
-        <script
+        <Script
+          id="intellimize-anti-flicker"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(e,t,p){var n=document.documentElement,s={p:[],r:[]},u={p:s.p,r:s.r,push:function(e){s.p.push(e)},ready:function(e){s.r.push(e)}};e.intellimize=u,n.className+=" "+p,setTimeout(function(){n.className=n.className.replace(RegExp(" ?"+p),"")},t)})(window,4000,'anti-flicker')`,
           }}
@@ -217,7 +224,9 @@ intellimize-editor,intellimize-badge,intellimize-label{display:none!important;}
         />
 
         {/* Footer fade on navigation */}
-        <script
+        <Script
+          id="footer-fade-nav"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `document.addEventListener("click",(e)=>{const link=e.target.closest("a[href]");if(!link)return;const href=link.getAttribute("href");if(!href)return;if(link.target==="_blank"||href.startsWith("#")||href.startsWith("javascript:")||href.startsWith("mailto:")||href.startsWith("tel:"))return;const footer=document.querySelector(".footer");if(!footer)return;footer.style.transition="opacity 0.6s ease";footer.style.opacity="0";});`,
           }}

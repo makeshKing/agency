@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { MediaType } from "./AdaptiveMedia";
+import { MediaType } from "@/lib/media";
+import { convertDriveLink } from "@/lib/convertDriveLink";
 
 interface WorkModalProps {
   media: MediaType;
@@ -10,26 +11,15 @@ interface WorkModalProps {
   onClose: () => void;
 }
 
-function convertDriveLink(url: string): string {
-  if (!url) return url;
-  if (url.includes("drive.google.com/file/d/")) {
-    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-    }
-  } else if (url.includes("drive.google.com/open?id=")) {
-    const match = url.match(/id=([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-    }
-  }
-  return url;
-}
-
 function WorkModalContent({ media, title, onClose }: WorkModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  const directUrl = convertDriveLink(media.url);
+  const posterUrl = media.posterUrl ? convertDriveLink(media.posterUrl) : undefined;
+  const isVideo = media.type === "video";
+  const hasMedia = !!media.url;
 
   // Store the element that had focus before opening, restore on close
   useEffect(() => {
@@ -46,10 +36,12 @@ function WorkModalContent({ media, title, onClose }: WorkModalProps) {
     };
   }, []);
 
-  // Explicitly play video after mount to handle autoplay restrictions
+  // Explicitly initialize video and attempt play after mount
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    video.load();
 
     const playVideo = async () => {
       try {
@@ -60,8 +52,7 @@ function WorkModalContent({ media, title, onClose }: WorkModalProps) {
       }
     };
 
-    // Small delay to ensure the video element is fully mounted with src
-    const timer = setTimeout(playVideo, 100);
+    const timer = setTimeout(playVideo, 150);
     return () => {
       clearTimeout(timer);
       if (video) {
@@ -69,7 +60,7 @@ function WorkModalContent({ media, title, onClose }: WorkModalProps) {
         video.currentTime = 0;
       }
     };
-  }, []);
+  }, [directUrl]);
 
   // Escape key handler
   const handleKeyDown = useCallback(
@@ -98,11 +89,6 @@ function WorkModalContent({ media, title, onClose }: WorkModalProps) {
     },
     [onClose]
   );
-
-  const directUrl = convertDriveLink(media.url);
-  const posterUrl = media.posterUrl ? convertDriveLink(media.posterUrl) : undefined;
-  const isVideo = media.type === "video";
-  const hasMedia = !!media.url;
 
   return (
     <div
@@ -140,13 +126,24 @@ function WorkModalContent({ media, title, onClose }: WorkModalProps) {
         ) : isVideo ? (
           <video
             ref={videoRef}
+            key={directUrl}
             src={directUrl}
             poster={posterUrl}
             className="work-modal-video"
             controls
             playsInline
             preload="auto"
-          />
+            onError={(e) => {
+              const error = e.currentTarget.error;
+              console.error("Video Error:", {
+                code: error?.code,
+                message: error?.message,
+                currentSrc: e.currentTarget.currentSrc,
+              });
+            }}
+          >
+            <source src={directUrl} type="video/mp4" />
+          </video>
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img

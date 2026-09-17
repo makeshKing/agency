@@ -18,7 +18,7 @@ export default function About() {
             </a>
             <div className="nav_links">
               <a href="/" className="nav_link underline-link">Hi, </a>
-              <a href="/about" aria-current="page" className="nav_link underline-link w--current">About, </a>
+              <a href="/about" className="nav_link underline-link">About, </a>
               <a id="what-we-do-menu" href="#" className="nav_link underline-link">What We Do</a>
             </div>
             <a href="mailto:hello@weareexample.com?subject=Hi!" className="link nav_right underline-link">hello@weareexample.com</a>

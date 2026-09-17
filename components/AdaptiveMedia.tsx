@@ -1,12 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import { MediaType, convertDriveLink } from "@/lib/media";
 
-export type MediaType = {
-  type: "image" | "video";
-  url: string;
-  posterUrl?: string;
-  altText: string;
-};
+export type { MediaType };
 
 interface AdaptiveMediaProps {
   media: MediaType;
@@ -19,25 +15,6 @@ interface AdaptiveMediaProps {
   sizes?: string;
   id?: string;
   loading?: "lazy" | "eager";
-}
-
-// Reuse Drive URL conversion if needed, otherwise rely on the existing image behavior 
-// (assuming the direct link is passed or transformed before saving, but if we need 
-// to transform it on the fly we do it here).
-function convertDriveLink(url: string): string {
-  if (!url) return url;
-  if (url.includes("drive.google.com/file/d/")) {
-    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-    }
-  } else if (url.includes("drive.google.com/open?id=")) {
-    const match = url.match(/id=([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-    }
-  }
-  return url;
 }
 
 export default function AdaptiveMedia({
@@ -82,6 +59,7 @@ export default function AdaptiveMedia({
     
     return (
       <video
+        key={directUrl}
         src={directUrl}
         poster={posterUrl}
         className={className}
@@ -98,7 +76,9 @@ export default function AdaptiveMedia({
         playsInline={!controls}
         controls={controls}
         preload="none"
-      />
+      >
+        <source src={directUrl} type="video/mp4" />
+      </video>
     );
   }
 
@@ -114,6 +94,7 @@ export default function AdaptiveMedia({
           loading={priority ? undefined : loading}
           sizes={sizes || "(max-width: 768px) 100vw, 50vw"}
           style={{ objectFit }}
+          unoptimized={directUrl.includes("drive.google.com") || directUrl.includes("googleusercontent.com")}
         />
       </div>
     );
@@ -135,6 +116,7 @@ export default function AdaptiveMedia({
         ...style,
         objectFit,
       }}
+      unoptimized={directUrl.includes("drive.google.com") || directUrl.includes("googleusercontent.com")}
     />
   );
 }

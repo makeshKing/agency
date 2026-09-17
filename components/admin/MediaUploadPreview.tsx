@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MediaType } from "../AdaptiveMedia";
+import { convertDriveLink, isSupportedVideoUrl } from "@/lib/convertDriveLink";
 
 interface MediaUploadPreviewProps {
   label: string;
@@ -44,6 +45,18 @@ export default function MediaUploadPreview({
     }
     return DEFAULT_MEDIA;
   })();
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const directVideoUrl = convertDriveLink(parsedMedia.url);
+  const directPosterUrl = parsedMedia.posterUrl ? convertDriveLink(parsedMedia.posterUrl) : undefined;
+  const videoValidation = parsedMedia.type === "video" ? isSupportedVideoUrl(parsedMedia.url) : null;
+
+  // Explicitly call .load() whenever the direct video URL changes
+  useEffect(() => {
+    if (parsedMedia.type === "video" && videoRef.current && directVideoUrl) {
+      videoRef.current.load();
+    }
+  }, [directVideoUrl, parsedMedia.type]);
 
   const updateMedia = (updates: Partial<MediaType>) => {
     const updated = { ...parsedMedia, ...updates };
@@ -215,6 +228,16 @@ export default function MediaUploadPreview({
             </label>
           )}
         </div>
+        {videoValidation?.warning && (
+          <div style={{ fontSize: "0.75rem", color: "#b45309", backgroundColor: "#fef3c7", border: "1px solid #fde68a", padding: "0.4rem 0.6rem", borderRadius: "5px", marginTop: "0.4rem" }}>
+            ⚠️ {videoValidation.warning}
+          </div>
+        )}
+        {parsedMedia.type === "video" && parsedMedia.url.includes("drive.google.com") && directVideoUrl && (
+          <div style={{ fontSize: "0.75rem", color: "#047857", backgroundColor: "#ecfdf5", border: "1px solid #a7f3d0", padding: "0.4rem 0.6rem", borderRadius: "5px", marginTop: "0.4rem" }}>
+            ✓ Converted Drive stream: <code style={{ fontSize: "0.72rem", wordBreak: "break-all" }}>{directVideoUrl}</code>
+          </div>
+        )}
       </div>
 
       {/* Inputs grid for Poster URL (Video only) */}
@@ -288,21 +311,34 @@ export default function MediaUploadPreview({
           {parsedMedia.url ? (
             parsedMedia.type === "video" ? (
               <video
-                src={parsedMedia.url.includes("drive.google.com") ? parsedMedia.url.replace(/\/d\/([a-zA-Z0-9_-]+)/, "/uc?export=view&id=$1").replace(/open\?id=/, "uc?export=view&id=") : parsedMedia.url}
-                poster={parsedMedia.posterUrl?.includes("drive.google.com") ? parsedMedia.posterUrl.replace(/\/d\/([a-zA-Z0-9_-]+)/, "/uc?export=view&id=$1").replace(/open\?id=/, "uc?export=view&id=") : parsedMedia.posterUrl}
+                ref={videoRef}
+                key={directVideoUrl}
+                src={directVideoUrl}
+                poster={directPosterUrl}
                 controls
                 muted
+                preload="metadata"
                 style={{
                   width: "100%",
                   height: "100%",
                   objectFit: aspectRatio === "contain" ? "contain" : "cover",
                   padding: aspectRatio === "contain" ? "8px" : "0",
                 }}
-              />
+                onError={(e) => {
+                  const err = e.currentTarget.error;
+                  console.error("Admin Preview Video Error:", {
+                    code: err?.code,
+                    message: err?.message,
+                    currentSrc: e.currentTarget.currentSrc,
+                  });
+                }}
+              >
+                <source src={directVideoUrl} type="video/mp4" />
+              </video>
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={parsedMedia.url}
+                src={convertDriveLink(parsedMedia.url)}
                 alt={parsedMedia.altText || label}
                 style={{
                   width: "100%",
