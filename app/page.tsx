@@ -1,9 +1,40 @@
 import { getHomeContent } from "@/lib/content";
 import AdaptiveMedia from "@/components/AdaptiveMedia";
 import WorkCardWrapper from "@/components/WorkCardWrapper";
+import HeroPolaroid from "@/components/HeroPolaroid";
 
 export default async function Home() {
   const { hero, navLinks, settings, works, journal, podcast, slides, logos } = await getHomeContent();
+
+  const leftPolaroidImages = [
+    {
+      src: hero?.polaroidLeft1 || "/images/69c665efc772d742875d88e4_67e100cf88cd84eacfe17596_polaroid-image-opt4.avif",
+      alt: hero?.polaroidLeft1Alt || "Example agency polaroid 1",
+    },
+    {
+      src: hero?.polaroidLeft2 || "/images/69c66610a0f830c3a1f52f64_67e100d80a74e90f9a9c0103_polaroid-image-opt3.avif",
+      alt: hero?.polaroidLeft2Alt || "Example agency polaroid 2",
+    },
+    {
+      src: hero?.polaroidLeft3 || "/images/69c6662f79641a0bf1404eb1_67e100de71d37c15ef4f7c84_polaroid-image-opt2.avif",
+      alt: hero?.polaroidLeft3Alt || "Example Agency Sydney & Dubai",
+    },
+  ];
+
+  const rightPolaroidImages = [
+    {
+      src: hero?.polaroidRight1 || "/images/67e0fe4b4f15832fc4651b28_unnamed (5).avif",
+      alt: hero?.polaroidRight1Alt || "Example agency polaroid 4",
+    },
+    {
+      src: hero?.polaroidRight2 || "/images/69c66649e541e29ba22d23dc_67f3abf7bfe7a69e94a2eeba_67e1c681df188e044a67e311_Screenshot 2025-03-25 at 7.54.17 am.avif",
+      alt: hero?.polaroidRight2Alt || "Example agency polaroid 5",
+    },
+    {
+      src: hero?.polaroidRight3 || "/images/67e0fe5e8e81037e9e91b71a_unnamed (6).avif",
+      alt: hero?.polaroidRight3Alt || "Example Agency Sydney & Dubai",
+    },
+  ];
 
   const whoWeHelpLinks = (navLinks || []).filter((l) => l.group === "who-we-help");
   const whatWeDoLinks = (navLinks || []).filter((l) => l.group === "what-we-do");
@@ -118,33 +149,16 @@ export default async function Home() {
 
           {/* ── DESKTOP NAV ── */}
           <div text-split="" letters-slide-up="" className="nav">
-            <a href="/" className="link nav_left w-inline-block">
-              {settings?.logoCustomImage ? (
-                // eslint-disable-next-line @next/next/no-img-element
+            {settings?.logoCustomImage ? (
+              <a href="/" className="link nav_left w-inline-block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={settings.logoCustomImage}
                   alt={settings.logoCustomImageAlt || settings?.logoText || "Logo"}
                   style={{ maxHeight: "28px", width: "auto" }}
                 />
-              ) : (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/67d9bf33d28af893fb808325_E.svg" loading="eager" alt="E" className="logo e" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/67d9bf334cace4fac68c5a73_X.svg" loading="eager" alt="X" className="logo x" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/67d9bf330a0ae83fba8a1735_A.svg" loading="eager" alt="A" className="logo a" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/67d9bf334c1faf7e677ec2d8_M.svg" loading="eager" alt="M" className="logo m" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/67d9bf33b548e787de206b32_P.svg" loading="eager" alt="P" className="logo p" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/67d9bf33c1fda4b1ca0eda2b_L.svg" loading="eager" alt="L" className="logo l" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/67d9bf3321b12e69bca2f8f2_E2.svg" loading="eager" alt="E" className="logo e2" />
-                </>
-              )}
-            </a>
+              </a>
+            ) : null}
             <div className="nav_links">
               {desktopTopLinks.map((item, idx) => (
                 <a
@@ -172,33 +186,16 @@ export default async function Home() {
 
           {/* ── MOBILE NAV ── */}
           <div className="nav mob">
-            <a href="/" className="link nav_left w-inline-block">
-              {settings?.logoCustomImage ? (
-                // eslint-disable-next-line @next/next/no-img-element
+            {settings?.logoCustomImage ? (
+              <a href="/" className="link nav_left w-inline-block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={settings.logoCustomImage}
                   alt={settings.logoCustomImageAlt || settings?.logoText || "Logo"}
                   style={{ maxHeight: "24px", width: "auto" }}
                 />
-              ) : (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src="/images/67d9bf33d28af893fb808325_E.svg" alt="E" className="logo e" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src="/images/67d9bf334cace4fac68c5a73_X.svg" alt="X" className="logo x" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src="/images/67d9bf330a0ae83fba8a1735_A.svg" alt="A" className="logo a" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src="/images/67d9bf334c1faf7e677ec2d8_M.svg" alt="M" className="logo m" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src="/images/67d9bf33b548e787de206b32_P.svg" alt="P" className="logo p" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src="/images/67d9bf33c1fda4b1ca0eda2b_L.svg" alt="L" className="logo l" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src="/images/67d9bf3321b12e69bca2f8f2_E2.svg" alt="E" className="logo e2" />
-                </>
-              )}
-            </a>
+              </a>
+            ) : null}
             <a
               href={settings?.navEmailUrlMob || `mailto:${settings?.contactEmail || "info@example.com.au"}?subject=${settings?.contactEmailSubject || "Hi!"}`}
               className="link nav_right"
@@ -236,33 +233,16 @@ export default async function Home() {
               </div>
               {/* Mobile menu nav bar (inside menu overlay) */}
               <div className="nav mob mob_menu">
-                <a href="/" className="link nav_left light w-inline-block">
-                  {settings?.logoCustomImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
+                {settings?.logoCustomImage ? (
+                  <a href="/" className="link nav_left light w-inline-block">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={settings.logoCustomImage}
                       alt={settings.logoCustomImageAlt || settings?.logoText || "Logo"}
                       style={{ maxHeight: "28px", width: "auto" }}
                     />
-                  ) : (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img loading="lazy" src="/images/67d9bf33d28af893fb808325_E.svg" alt="E" className="logo e" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img loading="lazy" src="/images/67d9bf334cace4fac68c5a73_X.svg" alt="X" className="logo x" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img loading="lazy" src="/images/67d9bf330a0ae83fba8a1735_A.svg" alt="A" className="logo a" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img loading="lazy" src="/images/67d9bf334c1faf7e677ec2d8_M.svg" alt="M" className="logo m" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img loading="lazy" src="/images/67d9bf33b548e787de206b32_P.svg" alt="P" className="logo p" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img loading="lazy" src="/images/67d9bf33c1fda4b1ca0eda2b_L.svg" alt="L" className="logo l" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img loading="lazy" src="/images/67d9bf3321b12e69bca2f8f2_E2.svg" alt="E" className="logo e2" />
-                    </>
-                  )}
-                </a>
+                  </a>
+                ) : null}
                 <a id="close_mobile" href="#" className="hamburger light fade w-inline-block">
                   <div className="burger_line light"></div>
                   <div className="burger_line light"></div>
@@ -287,72 +267,8 @@ export default async function Home() {
                         {hero?.ctaText}
                       </a>
                     </div>
-                    <div className="polaroid-mask left fade_extra">
-                      <div className="pol_holder">
-                        <div className="clip-up-pol">
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidLeft1 || "/images/69c665efc772d742875d88e4_67e100cf88cd84eacfe17596_polaroid-image-opt4.avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidLeft1Alt || "Example agency polaroid 1"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidLeft2 || "/images/69c66610a0f830c3a1f52f64_67e100d80a74e90f9a9c0103_polaroid-image-opt3.avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidLeft2Alt || "Example agency polaroid 2"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask start-visible">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidLeft3 || "/images/69c6662f79641a0bf1404eb1_67e100de71d37c15ef4f7c84_polaroid-image-opt2.avif"}
-                              loading="eager"
-                              alt={hero?.polaroidLeft3Alt || "Example Agency Sydney & Dubai"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="polaroid-mask right fade_extra">
-                      <div className="pol_holder">
-                        <div className="clip-up-pol">
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidRight1 || "/images/67e0fe4b4f15832fc4651b28_unnamed (5).avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidRight1Alt || "Example agency polaroid 4"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidRight2 || "/images/69c66649e541e29ba22d23dc_67f3abf7bfe7a69e94a2eeba_67e1c681df188e044a67e311_Screenshot 2025-03-25 at 7.54.17 am.avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidRight2Alt || "Example agency polaroid 5"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask start-visible">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidRight3 || "/images/67e0fe5e8e81037e9e91b71a_unnamed (6).avif"}
-                              loading="eager"
-                              alt={hero?.polaroidRight3Alt || "Example Agency Sydney & Dubai"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <HeroPolaroid position="left" images={leftPolaroidImages} />
+                    <HeroPolaroid position="right" images={rightPolaroidImages} />
                     <h1 letters-slide-up="" text-split="" className="hero_display">
                       {hero?.headlineLine1} <span className="h_word2">{hero?.headlineLine2}</span>{" "}
                       <span className="h_word3">{hero?.headlineLine3}</span>{" "}
@@ -362,39 +278,7 @@ export default async function Home() {
 
                   {/* Mobile Hero */}
                   <section className="home_hero mob">
-                    <div className="polaroid-mask right fade_extra">
-                      <div className="pol_holder">
-                        <div className="clip-up-pol">
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidRight1 || "/images/67e0fe4b4f15832fc4651b28_unnamed (5).avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidRight1Alt || "Example agency polaroid"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidRight2 || "/images/69c66649e541e29ba22d23dc_67f3abf7bfe7a69e94a2eeba_67e1c681df188e044a67e311_Screenshot 2025-03-25 at 7.54.17 am.avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidRight2Alt || "Example agency polaroid"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask start-visible">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidRight3 || "/images/67e0fe5e8e81037e9e91b71a_unnamed (6).avif"}
-                              loading="eager"
-                              alt={hero?.polaroidRight3Alt || "Example Agency Sydney & Dubai"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <HeroPolaroid position="right" images={rightPolaroidImages} />
                     <h2 letters-slide-up="" text-split="" className="hero_display">
                       <span className="h_word1">{hero?.headlineLine1}</span>{" "}
                       <span className="h_word2">{hero?.headlineLine2}</span>{" "}
@@ -409,39 +293,7 @@ export default async function Home() {
                         {hero?.ctaText}
                       </a>
                     </div>
-                    <div className="polaroid-mask left fade_extra">
-                      <div className="pol_holder">
-                        <div className="clip-up-pol">
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidLeft1 || "/images/69c665efc772d742875d88e4_67e100cf88cd84eacfe17596_polaroid-image-opt4.avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidLeft1Alt || "Example agency polaroid"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidLeft2 || "/images/69c66610a0f830c3a1f52f64_67e100d80a74e90f9a9c0103_polaroid-image-opt3.avif"}
-                              loading="lazy"
-                              alt={hero?.polaroidLeft2Alt || "Example agency polaroid"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                          <div className="pol-mask start-visible">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={hero?.polaroidLeft3 || "/images/69c6662f79641a0bf1404eb1_67e100de71d37c15ef4f7c84_polaroid-image-opt2.avif"}
-                              loading="eager"
-                              alt={hero?.polaroidLeft3Alt || "Example Agency Sydney & Dubai"}
-                              className="polaroid-image"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <HeroPolaroid position="left" images={leftPolaroidImages} />
                   </section>
                 </div>
               </div>

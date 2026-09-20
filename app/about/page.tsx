@@ -7,15 +7,6 @@ export default function About() {
 
           {/* ── DESKTOP NAV (Reusing from homepage) ── */}
           <div text-split="" letters-slide-up="" className="nav">
-            <a href="/" className="link nav_left w-inline-block">
-              <img src="/images/67d9bf33d28af893fb808325_E.svg" loading="eager" alt="" className="logo e" />
-              <img src="/images/67d9bf334cace4fac68c5a73_X.svg" loading="eager" alt="" className="logo x" />
-              <img src="/images/67d9bf330a0ae83fba8a1735_A.svg" loading="eager" alt="" className="logo a" />
-              <img src="/images/67d9bf334c1faf7e677ec2d8_M.svg" loading="eager" alt="" className="logo m" />
-              <img src="/images/67d9bf33b548e787de206b32_P.svg" loading="eager" alt="" className="logo p" />
-              <img src="/images/67d9bf33c1fda4b1ca0eda2b_L.svg" loading="eager" alt="" className="logo l" />
-              <img src="/images/67d9bf3321b12e69bca2f8f2_E2.svg" loading="eager" alt="" className="logo e2" />
-            </a>
             <div className="nav_links">
               <a href="/" className="nav_link underline-link">Hi, </a>
               <a href="/about" className="nav_link underline-link">About, </a>
