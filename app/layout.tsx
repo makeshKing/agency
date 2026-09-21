@@ -4,6 +4,8 @@ import { prisma } from "@/lib/db";
 import WorkModalProvider from "@/components/WorkModalProvider";
 import "./globals.css";
 
+export const revalidate = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await prisma.siteSettings.findFirst();
 

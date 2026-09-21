@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req: Request) {
   const session = await auth();
@@ -26,5 +27,14 @@ export async function POST(req: Request) {
     },
   });
 
+  revalidatePath("/", "layout");
+  revalidatePath("/");
+  revalidatePath("/work");
+  if (work.link && work.link.startsWith("/") && work.link !== "/") {
+    revalidatePath(work.link);
+  }
+
   return NextResponse.json(work);
 }
+
+

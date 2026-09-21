@@ -3,6 +3,8 @@ import AdaptiveMedia from "@/components/AdaptiveMedia";
 import WorkCardWrapper from "@/components/WorkCardWrapper";
 import HeroPolaroid from "@/components/HeroPolaroid";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const { hero, navLinks, settings, works, journal, podcast, slides, logos } = await getHomeContent();
 

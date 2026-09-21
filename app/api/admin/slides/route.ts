@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req: Request) {
   const session = await auth();
@@ -26,5 +27,9 @@ export async function POST(req: Request) {
     },
   });
 
+  revalidatePath("/", "layout");
+  revalidatePath("/");
+
   return NextResponse.json(slide);
 }
+

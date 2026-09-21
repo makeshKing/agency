@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req: Request) {
   const session = await auth();
@@ -21,5 +22,10 @@ export async function PUT(req: Request) {
     data,
   });
 
+  revalidatePath("/", "layout");
+  revalidatePath("/");
+  revalidatePath("/about");
+
   return NextResponse.json(settings);
 }
+
